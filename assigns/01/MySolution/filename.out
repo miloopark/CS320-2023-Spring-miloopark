@@ -208,12 +208,11 @@ val xs =
   : int xlist
 val ys =
   xlist_append
-    (xlist_append
-       (xlist_snoc (xlist_snoc (xlist_snoc (#,#),2),1),
-        xlist_snoc (xlist_snoc (xlist_nil,2),1)),
-     xlist_append
-       (xlist_snoc (xlist_snoc (xlist_snoc (#,#),2),1),
-        xlist_snoc (xlist_snoc (xlist_nil,2),1))) : int xlist
+    (xlist_cons
+       (2,xlist_snoc (xlist_append (xlist_snoc (#,#),xlist_snoc (#,#)),1)),
+     xlist_cons
+       (2,xlist_snoc (xlist_append (xlist_snoc (#,#),xlist_snoc (#,#)),1)))
+  : int xlist
 val it = () : unit
 
 Standard ML of New Jersey (64-bit) v110.99.3 [built: Thu Jul 28 00:35:16 2022]
