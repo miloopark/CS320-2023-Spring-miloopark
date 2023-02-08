@@ -67,7 +67,8 @@ fun int3sort(xs: int3): int3 =
       val b: int2 = int2sort(bb)
       val (b1, b2) = b
     in
-      if x3 >= a2 then (a1, a2, x3)
+      if x3 >= a2 
+      then (a1, a2, x3)
       else (b1, b2, a2)
     end
 
@@ -80,25 +81,24 @@ fun int4sort(xs: int4): int4 =
     val bb: int3 = (a1, a2, x4)
     val b: int3 = int3sort(bb)
     val (b1, b2, b3) = b
-
   in
-    if x4 >= a3 then (a1, a2, a3, x4)
+    if x4 >= a3 
+    then (a1, a2, a3, x4)
     else (b1, b2, b3, a3)
   end
 
 fun int5sort(xs: int5): int5 = 
     let
       val (x1, x2, x3, x4, x5) = xs
-
       val aa: int4 = (x1, x2, x3, x4)
       val a: int4 = int4sort(aa)
       val (a1, a2, a3, a4) = a
       val bb: int4 = (a1, a2, a3, x5)
       val b: int4 = int4sort(bb)
       val (b1, b2, b3, b4) = b
-
     in
-      if x5 >= a4 then (a1, a2, a3, a4, x5)
+      if x5 >= a4 
+      then (a1, a2, a3, a4, x5)
       else (b1, b2, b3, b4, a4)
     end
 
