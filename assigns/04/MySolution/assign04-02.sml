@@ -31,6 +31,11 @@ of a set is insignificant.
 *)
 (* ****** ****** *)
 
+fun list_subsets(xs: 'a list): 'a list list = (
+  list_reduce_right(xs, [[]], (fn(x, acc) => list_append(acc, list_map(acc,(fn ys => x::ys)))))
+)
+
+
 (*
 val
 list_subsets =
