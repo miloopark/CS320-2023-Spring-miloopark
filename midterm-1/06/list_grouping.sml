@@ -28,25 +28,30 @@ fun
 list_grouping(xs: int list): (int * int) list = ...
 *)
 
-fun add_pair_helper(x: int, n: int, p: (int * int) list): (int * int) list =
+fun counter(x: int, xs: int list): int =
+    case xs of
+        [] => 0
+        | y::ys => if x = y then counter(x, ys) + 1 else counter(x, ys)
+
+fun add_pair(x: int, n: int, p: (int * int) list): (int * int) list =
     case p of
         [] => [(1, x)]
         | (a, b)::rest => if a = b then (n + 1, b) :: rest else (1, a) :: p
 
-fun add_pair(x: int, n: int, p: (int * int) list): (int * int) list =
-    add_pair_helper(x, n, p)
-
-fun list_grouping_helper(xs: int list, current: int, count: int, acc: (int * int) list): (int * int) list =
-    case xs of
-        [] => rev ((count, current)::acc)
-        | x::xs' =>
-            if x = current then
-                list_grouping_helper(xs', current, count+1, acc)
-            else
-                list_grouping_helper(xs', x, 1, (count, current)::acc)
-
 fun list_grouping(xs: int list): (int * int) list =
-    list_grouping_helper(xs, hd xs, 1, [])
+let 
+    fun helper(xs: int list, p: (int * int) list): (int * int) list =
+        case xs of
+            [] => p
+            | x :: xs' => 
+                let 
+                    val n = counter(x, xs') + 1
+                in 
+                    helper(xs', add_pair(x, n, p))
+                end
+in
+    helper(xs, [])
+end
 
 
 (* ****** ****** *)

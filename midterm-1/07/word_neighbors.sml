@@ -50,7 +50,6 @@ Note that you are NOT allowed to define recursive functions
 in your implementation
 //
 *)
-
 (* ****** ****** *)
 
 val AB =
@@ -67,5 +66,24 @@ fn(cs, ifopr) =>
 foreach_to_map_list(string_iforeach)(cs, ifopr)
 
 (* ****** ****** *)
+
+fun word_neighbors(word: string): string list =
+    let
+        val alpha = "abcdefghijklmnopqrstuvwxyz"
+        val n = size word
+        val range = List.tabulate(n, fn i => i)
+        fun generate_neighbors(i: int, lst: string list): string list =
+            if i = n then lst
+            else
+                let
+                    val left = if i = 0 then "" else substring(word, 0, i)
+                    val right = substring(word, i+1, n-i-1)
+                in
+                    generate_neighbors(i+1, lst @ List.map (fn c => left ^ str c ^ right) (explode alpha))
+                end
+    in
+        generate_neighbors(0, []) 
+    end;
+
 
 (* end of [CS320-2023-Spring-midterm1-word_neighbors.sml] *)
