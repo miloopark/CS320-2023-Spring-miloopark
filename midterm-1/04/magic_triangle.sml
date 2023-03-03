@@ -65,19 +65,22 @@ magic_triangle (n : int) : int list list = ...
 fun
 magic_triangle (n : int) : int list list = (
   let
-    fun create_row([], x, acc) = acc@[1]
-      | create_row(x::xs, y, acc) = create_row(xs, x, acc@[x+y]);
-
-    fun create_triangle(0, acc : int list list) = acc
-      | create_triangle(n, acc : int list list) =
-        let
-          val previous_row = List.last(List.last(acc))
-          val current_row = create_row(previous_row, 0, [1])
-        in
-          create_triangle(n-1, acc@[current_row])
-        end;
+    fun next_row(prev_row: int list): int list = 
+      let 
+        fun sum_pairs(lst: int list): int list = 
+          case lst of 
+            [] => []
+            | [x] => [x]
+            | x::y::tl => (x+y)::sum_pairs(y::tl)
+      in
+        list_append([1], sum_pairs(prev_row))
+      end
+    
+    fun build_triangle(n: int, rows: int list list): int list list = 
+      if n=0 then rows
+      else build_triangle(n-1, list_append(rows, [next_row(list_get_at(list_reverse(rows), 0))]))
   in
-    create_triangle(n, [[1]])
+    build_triangle(n, [[1]])
   end
 )
 

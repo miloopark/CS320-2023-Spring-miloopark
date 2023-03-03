@@ -31,18 +31,26 @@ list_pairing
 (xs: 'a list): ('a * 'a) list * 'a option = ...
 *)
 
-fun
-list_pairing
-(xs: 'a list): ('a * 'a) list * 'a option = 
-    let
-        fun pairs_helper(acc : ('a * 'a) list, ys : 'a list) : ('a * 'a) list * 'a option =
-            case ys of
-                [] => (acc, NONE)
-              | [x] => (acc, SOME x)
-              | x :: xs' => pairs_helper((x, List.last xs') :: acc, List.take (xs', (length xs' - 1) div 2))
-    in
-        pairs_helper([], xs)
-    end;
+fun 
+list_pairing(xs: 'a list): ('a * 'a) list * 'a option =
+  let
+    val ys = list_reverse(xs)
+    val len = list_length(xs)
+    val option = if len mod 2 = 0 then NONE else SOME (list_get_at(xs, len div 2))
+    fun helper(xs: 'a list, ys: 'a list, i: int, max: int): ('a * 'a) list =
+        if i >= max then nil else
+            case xs of
+                nil => nil
+                | x1 :: xs =>
+
+                    case ys of
+                        nil => nil
+                        | y1 :: ys => (x1, y1) :: helper(xs, ys, i, max)
+
+    val res = helper(xs, ys, 0, len div 2)
+  in
+    (res, option)
+  end
 
 
 (* ****** ****** *)

@@ -38,13 +38,12 @@ list_averages(xs: real list): real list = ...
 fun 
 list_averages(xs: real list): real list =
     let
-        val len = list_length(xs)
-        val sumList = list_foldleft(xs, [], fn(acc, x) =>
-            case acc of
-                [] => [x]
-                | (s::ss) => ((x + s) / real(list_length(acc) + 1)) :: acc)
+        fun helper(xs, i: int, s: real): real list =
+        case xs of
+        [] => []
+        | x :: xs' => ((x + s) / int2real(i)) :: helper(xs', i+1, x+s)
     in
-        sumList
+        helper(xs, 1, 0.0)
     end
 
 (* ****** ****** *)

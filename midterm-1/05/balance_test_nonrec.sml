@@ -112,7 +112,27 @@ val
 bintr_balanced_nonrec = fn(t0: 'a bintr) => ...
 *)
 
+val bintr_balanced_nonrec = fn (t0: 'a bintr) =>
+  let
+    fun helper (t: 'a bintr) =
+      case t of
+        LEAF _ => (1, true)
+      | NODE(l, r) =>
+        let
+          val (size_l, balanced_l) = helper l
+          val (size_r, balanced_r) = helper r
+          val size = size_l + size_r
+        in
+          (size,
+           balanced_l andalso balanced_r andalso size_l = size_r)
+        end
+    val (_, balanced) = helper t0
+  in
+    balanced
+  end
+
 (* ****** ****** *)
+
 
 (*
 Some testing code:
