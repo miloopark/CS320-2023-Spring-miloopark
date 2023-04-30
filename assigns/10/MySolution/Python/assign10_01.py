@@ -166,17 +166,23 @@ def image_seam_carving_1col_color(image):
     hh = image.height
     energy = image_edges_color(image)
     ################################################
+    energy_table = {}
     def cenergy(i0, j0):
+        if (i0, j0) in energy_table:
+            return energy_table[(i0, j0)]
+        
         evalue = imgvec.image_get_pixel(energy, i0, j0)
         if i0 <= 0:
-            return evalue
+            result = evalue
         else:
             if j0 <= 0:
-                return evalue + min(cenergy(i0-1, j0), cenergy(i0-1, j0+1))
+                result = evalue + min(cenergy(i0-1, j0), cenergy(i0-1, j0+1))
             elif j0 >= ww-1:
-                return evalue + min(cenergy(i0-1, j0-1), cenergy(i0-1, j0))
+                result = evalue + min(cenergy(i0-1, j0-1), cenergy(i0-1, j0))
             else:
-                return evalue + min(cenergy(i0-1, j0-1), cenergy(i0-1, j0), cenergy(i0-1, j0+1))
+                result = evalue + min(cenergy(i0-1, j0-1), cenergy(i0-1, j0), cenergy(i0-1, j0+1))
+        energy_table[(i0, j0)] = result
+        return result
     ################################################
     jmin0 = 0
     cmin0 = cenergy(hh-1, 0)
