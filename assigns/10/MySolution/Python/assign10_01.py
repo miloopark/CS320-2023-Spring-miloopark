@@ -168,10 +168,9 @@ def image_seam_carving_1col_color(image):
     ################################################
     energy_table = {}
     def cenergy(i0, j0):
+        evalue = imgvec.image_get_pixel(energy, i0, j0)
         if (i0, j0) in energy_table:
             return energy_table[(i0, j0)]
-        
-        evalue = imgvec.image_get_pixel(energy, i0, j0)
         if i0 <= 0:
             result = evalue
         else:
